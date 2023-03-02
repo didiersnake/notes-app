@@ -17,7 +17,7 @@ export default function Editor({currentNote ,updateNote}) {
     return (
      <div className="container">
        <ReactMde
-         value={currentNote}
+         value={currentNote.body}
          onChange={updateNote}
          selectedTab={selectedTab}
          onTabChange={setSelectedTab}

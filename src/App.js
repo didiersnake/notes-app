@@ -3,7 +3,8 @@ import './App.css';
 import SideBar from './components/SideBar';
 import Editor from './components/Editor'
 import { nanoid } from 'nanoid';
-
+import Home from './components/Home';
+import SPlit from 'react-split';
 function App() {
 
     const [notes, setNotes] = useState([]);
@@ -32,14 +33,23 @@ function App() {
         : prevState))
   }
 
-  return (
+  return notes.length > 1 ? (
+    <div className='App'>
+      <SPlit sizes={[25, 75]} direction="horizontal"
+        className="container">
+        <SideBar
+          notes={notes}
+          setCurrentNoteId={setCurrentNoteId}
+          currentNoteId={currentNoteId}
+          creatNote={creatNote}
+        />
+
+        <Editor currentNote={findCurrentNote()} updateNote={updateNote} />
+      </SPlit>
+    </div>
+  ) : (
     <div className="App">
-      
-      <SideBar notes={notes} setCurrentNoteId={setCurrentNoteId}
-        currentNoteId={currentNoteId} creatNote={creatNote} />
-      
-      <Editor currentNote={findCurrentNote()} updateNote={updateNote} />
-      
+      <Home createNote={creatNote} />
     </div>
   );
 }

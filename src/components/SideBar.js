@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { nanoid } from "nanoid";
+import React from "react";
 
 export default function SideBar(props) {
 
@@ -20,7 +19,7 @@ export default function SideBar(props) {
                 <h1>Notes</h1>
                 <button className="plus-btn" onClick={props.creatNote}> + </button>
             </div>
-            <div className="notes">
+            <div>
                 {notesElement}
             </div>
             
