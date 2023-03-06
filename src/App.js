@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
 import SideBar from './components/SideBar';
 import Editor from './components/Editor'
@@ -6,12 +6,17 @@ import { nanoid } from 'nanoid';
 import Home from './components/Home';
 import SPlit from 'react-split';
 function App() {
+  const data = localStorage.getItem("notes");
 
-    const [notes, setNotes] = useState([]);
-    const [currentNoteId, setCurrentNoteId] = useState(
-      (notes[0] && notes[0].id) || ""
-    );
-
+  const [notes, setNotes] = useState(JSON.parse(data));
+  const [currentNoteId, setCurrentNoteId] = useState(
+    (notes[0] && notes[0].id) || ""
+  ) ;
+  
+  useEffect(() => {
+    localStorage.setItem("notes", JSON.stringify(notes))
+  }, [notes]);
+  
     function creatNote() {
       const newNode = { id: nanoid(), body: "Enter your text..." };
       setNotes((prevState) => {
@@ -19,6 +24,7 @@ function App() {
       });
       setCurrentNoteId(newNode.id);
     }
+  
   // set editor value from currentNote ID
   function findCurrentNote() {
     return notes.find((item) => {
@@ -33,12 +39,12 @@ function App() {
         : prevState))
   }
 
-  return notes.length > 1 ? (
+  return notes.length > 0 ? (
     <div className='App'>
       <SPlit sizes={[25, 75]} direction="horizontal"
         className="container">
         <SideBar
-          notes={notes}
+          notes={notes} 
           setCurrentNoteId={setCurrentNoteId}
           currentNoteId={currentNoteId}
           creatNote={creatNote}
