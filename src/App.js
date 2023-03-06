@@ -51,15 +51,26 @@ function App() {
     //    : prevState))
   }
 
+  // Delete notes from note list
+  function deleteNote(e, noteId) {
+    e.stopPropagation()
+    console.log(noteId)
+    setNotes((prevState) => {
+      return notes.filter((item)=> item.id !== noteId)
+    })
+  }
+
   return notes.length > 0 ? (
     <div className='App'>
       <SPlit sizes={[25, 75]} direction="horizontal"
         className="container">
+
         <SideBar
           notes={notes} 
           setCurrentNoteId={setCurrentNoteId}
           currentNoteId={currentNoteId}
           creatNote={creatNote}
+          deleteNote={deleteNote}
         />
 
         <Editor currentNote={findCurrentNote()} updateNote={updateNote} />
