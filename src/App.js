@@ -8,7 +8,7 @@ import SPlit from 'react-split';
 function App() {
   const data = localStorage.getItem("notes");
 
-  const [notes, setNotes] = useState(JSON.parse(data));
+  const [notes, setNotes] = useState(()=> JSON.parse(data));
   const [currentNoteId, setCurrentNoteId] = useState(
     (notes[0] && notes[0].id) || ""
   ) ;
@@ -32,11 +32,23 @@ function App() {
     }) || notes[0] 
   }
   
-  // On currentNote ID value change, change the editor 
+  // On currentNote ID value change, change the editor and set note to top
   function updateNote(text) {
-    return setNotes((prevState) => notes.map((note) => 
-      note.id === currentNoteId ? { ...note, body: text }
-        : prevState))
+    setNotes((prevState) => {
+      const newArray = [];
+      for (let i = 0; i < prevState.length; i++){
+        const note = prevState[i]
+        if (note.id === currentNoteId) {
+          newArray.unshift({ ...note, body: text });
+        } else {
+          newArray.push(note)
+        }
+      }
+      return newArray
+    })
+    //return setNotes((prevState) => notes.map((note) => 
+    //  note.id === currentNoteId ? { ...note, body: text }
+    //    : prevState))
   }
 
   return notes.length > 0 ? (
